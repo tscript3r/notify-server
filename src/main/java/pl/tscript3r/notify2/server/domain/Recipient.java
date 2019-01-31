@@ -1,44 +1,45 @@
 package pl.tscript3r.notify2.server.domain;
 
 public class Recipient {
-	Integer userId;
-	String email;
-	String name;
 
-	public Integer getUserId() {
-		return userId;
-	}
+    private Integer userId;
+    private String email;
+    private String name;
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
+    public Integer getUserId() {
+        return userId;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	@Override
-	public int hashCode() {
-		return userId;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj != null)
-			return (obj.hashCode() == userId) ? true : false;
-		return false;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public int hashCode() {
+        return userId;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null)
+            return (obj.hashCode() == userId);
+        return false;
+    }
 
 }

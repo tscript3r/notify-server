@@ -1,48 +1,47 @@
 package pl.tscript3r.notify2.server.dataflow;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import pl.tscript3r.notify2.server.domain.TaskPackage;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class TaskContainer {
-	
-	private static TaskContainer taskContainer = new TaskContainer();
-	private List<TaskPackage> tasksList = new ArrayList<TaskPackage>();
 
-	private TaskContainer() {
-	}
+    private final static TaskContainer taskContainer = new TaskContainer();
+    private final List<TaskPackage> tasksList = new ArrayList<>();
 
-	public synchronized static TaskContainer getInstance() {
-		return taskContainer;
-	}
+    private TaskContainer() {
+    }
 
-	public synchronized List<TaskPackage> getTasks(int hostId) {
-		List<TaskPackage> result = new ArrayList<TaskPackage>();
-		if (tasksList.size() > -1)
-			for (int i = 0; i < tasksList.size(); i++)
-				if (tasksList.get(i).getHostId() == hostId)
-					result.add(tasksList.get(i));
-		return result;
-	}
+    public static TaskContainer getInstance() {
+        return taskContainer;
+    }
 
-	public synchronized void deleteTask(int taskId) {
-		if (tasksList.size() > -1)
-			for (int i = 0; i < tasksList.size(); i++)
-				if (tasksList.get(i).getId() == taskId)
-					tasksList.remove(i);
-	}
+    public synchronized List<TaskPackage> getTasks(int hostId) {
+        return tasksList.stream()
+                .filter(task -> task.getHostId() == hostId)
+                .collect(Collectors.toList());
+    }
 
-	public synchronized void addTask(TaskPackage task) {
-		tasksList.add(task);
-	}
+    public synchronized void deleteTask(int taskId) {
+        if (!tasksList.isEmpty())
+            tasksList.stream()
+                    .filter(task -> task.getId() == taskId)
+                    .forEach(tasksList::remove);
+    }
 
-	public synchronized Boolean isTask(int taskId) {
-		if(tasksList.size() > -1)
-			for(int i = 0; i < tasksList.size(); i++)
-				if(tasksList.get(i).getId() == taskId)
-					return true;
-		return false;
-	}
-	
+    public synchronized void addTask(TaskPackage task) {
+        tasksList.add(task);
+    }
+
+    public synchronized Boolean isTask(int taskId) {
+        if (!tasksList.isEmpty())
+            for (TaskPackage taskPackage : tasksList) {
+                if (taskPackage.getId() == taskId)
+                    return true;
+            }
+        return false;
+    }
+
 }

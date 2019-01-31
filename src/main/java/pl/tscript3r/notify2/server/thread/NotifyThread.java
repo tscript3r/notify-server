@@ -2,57 +2,55 @@ package pl.tscript3r.notify2.server.thread;
 
 import org.apache.log4j.Logger;
 
-public abstract class NotifyThread implements Runnable, NotifyThreadInterface {
+abstract class NotifyThread implements Runnable {
 
-	protected String host;
-	protected Thread thread;
-	protected long lastFailureTime = 0;
-	protected static Logger log;
+    final String host;
+    Thread thread;
+    private long lastFailureTime = 0;
+    static Logger log;
 
-	public NotifyThread(String host) {
-		this.host = host;
-	}
+    NotifyThread(String host) {
+        this.host = host;
+    }
 
-	public long getLastFailureTime() {
-		return lastFailureTime;
-	}
+    long getLastFailureTime() {
+        return lastFailureTime;
+    }
 
-	public void setLastFailureTime(long lastFailureTime) {
-		this.lastFailureTime = lastFailureTime;
-	}
+    void setLastFailureTime(long lastFailureTime) {
+        this.lastFailureTime = lastFailureTime;
+    }
 
-	public Boolean isAlive() {
-		return (thread != null) ? thread.isAlive() : false;
-	}
-	
-	public String getThreadName() {
-		return thread.getName();
-	}
+    public Boolean isAlive() {
+        return (thread != null) && thread.isAlive();
+    }
 
-	@Override
-	public void start() {
-		stop();
-		thread = new Thread(this);
-		thread.start();
-	}
+    public String getThreadName() {
+        return thread.getName();
+    }
 
-	@Override
-	public void stop() {
-		if (thread != null)
-			if (thread.isAlive())
-				thread.interrupt();
-	}
+    public void start() {
+        stop();
+        thread = new Thread(this);
+        thread.start();
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj != null)
-			return (obj.hashCode() == hashCode()) ? true : false;
-		return false;
-	}
+    public void stop() {
+        if (thread != null)
+            if (thread.isAlive())
+                thread.interrupt();
+    }
 
-	@Override
-	public int hashCode() {
-		return host.hashCode();
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null)
+            return (obj.hashCode() == hashCode());
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return host.hashCode();
+    }
 
 }

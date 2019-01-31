@@ -4,23 +4,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AdPackage extends Package {
-	
-	private Map<String, String> values = new HashMap<String, String>();
 
-	public AdPackage(int id, long hostId, String url, Recipient recipient) {
-		super(id, hostId, url, recipient);
-	}
+    private final Map<String, String> values = new HashMap<>();
 
-	public void addValue(String key, String value) {
-		values.put(key, value);
-	}
+    public AdPackage(int id, long hostId, String url, Recipient recipient) {
+        super(id, hostId, url, recipient);
+    }
 
-	public Boolean isValue(String key) {
-		return values.containsKey(key);
-	}
+    public void addValue(String key, String value) {
+        values.put(key, value);
+    }
 
-	public String getValue(String key) {
-		return values.get(key);
-	}
-	
+    public Boolean isValue(String key) {
+        return values.containsKey(key);
+    }
+
+    public String getValue(String key) {
+        return values.get(key);
+    }
+
 }
